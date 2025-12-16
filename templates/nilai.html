@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Input Nilai Alternatif</h1>
+
+<form method="POST">
+  <label>Alternatif:</label>
+  <select name="alternatif" required>
+    {% for a in alternatif %}
+    <option value="{{ a[0] }}">{{ a[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <hr />
+
+  {% for k in kriteria %}
+  <label>{{ k[1] }}</label>
+  <input type="number" step="0.01" name="nilai_{{ k[0] }}" required /><br />
+  {% endfor %}
+
+  <br />
+  <button type="submit">Simpan Nilai</button>
+</form>
+{% endblock %}

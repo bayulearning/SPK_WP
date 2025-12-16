@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <h2>SPK WP</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/kriteria">Kriteria</a></li>
+        <li><a href="/alternatif">Alternatif</a></li>
+        <li><a href="/hasil">Hasil</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">{% block content %}{% endblock %}</main>
+  </body>
+</html>

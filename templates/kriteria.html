@@ -1,0 +1,23 @@
+{% extends 'index.html' %} {% block content %}
+<h1>Data Kriteria</h1>
+
+<form class="form">
+  <input type="text" placeholder="Nama Kriteria" required />
+  <input type="number" step="0.01" placeholder="Bobot" required />
+  <select>
+    <option value="benefit">Benefit</option>
+    <option value="cost">Cost</option>
+  </select>
+  <button type="submit">Simpan</button>
+</form>
+
+<table>
+  {% for k in kriteria %}
+  <tr>
+    <td>{{ k[1] }}</td>
+    <td>{{ k[2] }}</td>
+    <td>{{ k[3] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
