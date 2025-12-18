@@ -1,19 +1,24 @@
 {% extends 'index.html' %} {% block content %}
 <h1>Data Alternatif</h1>
 
-<form class="form">
-  <input type="text" placeholder="Nama Alternatif" required />
+<form class="form" method="POST" action="/alternatif">
+  <input type="text" name="nama" placeholder="Nama Alternatif" required />
   <button type="submit">Simpan</button>
 </form>
 
-<table>
-  <tr>
-    <th>Nama Alternatif</th>
-  </tr>
-  <ul>
+<table border="1" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Nama Alternatif</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for a in alternatif %}
-    <li>{{ a[1] }}</li>
+    <tr>
+      <td>{{ a[1] }}</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </tbody>
 </table>
+
 {% endblock %}

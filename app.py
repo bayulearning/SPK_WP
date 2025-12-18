@@ -6,7 +6,7 @@ from wp import hitung_wp
 
 app = Flask(__name__)
 
-# KONFIGURASI MYSQL
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''   
@@ -14,16 +14,53 @@ app.config['MYSQL_DB'] = 'spk_wp'
 
 mysql = MySQL(app)
 
-@app.route('/')
-def index():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM kriteria")
-    data = cur.fetchall()
-    cur.close()
-    return render_template('index.html', data=data)
+# @app.route('/')
+# def index():
+#     cur = mysql.connection.cursor()
+#     cur.execute("SELECT * FROM kriteria")
+#     data = cur.fetchall()
+#     cur.close()
+#     return render_template('index.html', data=data)
 
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    cur = mysql.connection.cursor()
+
+    cur.execute("SELECT * FROM alternatif")
+    alternatif_db = cur.fetchall()
+
+    cur.execute("SELECT * FROM kriteria")
+    kriteria_db = cur.fetchall()
+
+    cur.execute("SELECT alternatif_id, kriteria_id, nilai FROM nilai")
+    nilai_db = cur.fetchall()
+    cur.close()
+
+    # mapping nilai
+    nilai = {(a, k): v for a, k, v in nilai_db}
+
+    alternatif = [{'id': a[0], 'nama': a[1]} for a in alternatif_db]
+    kriteria = [
+        {'id': k[0], 'nama': k[1], 'bobot': float(k[2]), 'tipe': k[3]}
+        for k in kriteria_db
+    ]
+
+    from wp import hitung_wp
+    ranking = hitung_wp(alternatif, kriteria, nilai)
+
+    return render_template(
+        'dashboard.html',
+        ranking=ranking,
+        alternatif=alternatif,
+        kriteria=kriteria,
+        nilai=nilai
+    )
+
+
 
 @app.route('/kriteria', methods=['GET', 'POST'])
 def kriteria():
@@ -46,7 +83,8 @@ def kriteria():
 
     return render_template('kriteria.html', kriteria=data)
 
-@app.route('/alternatif', methods=['GET','POST'])
+
+@app.route('/alternatif', methods=['GET', 'POST'])
 def alternatif():
     cur = mysql.connection.cursor()
 
@@ -57,34 +95,43 @@ def alternatif():
             (nama,)
         )
         mysql.connection.commit()
+        cur.close()
 
+        
+        return redirect(url_for('nilai'))
+
+    
     cur.execute("SELECT * FROM alternatif")
     data = cur.fetchall()
     cur.close()
 
     return render_template('alternatif.html', alternatif=data)
 
+
 @app.route('/hasil')
 def hasil():
     cur = mysql.connection.cursor()
 
-    # Ambil alternatif
+    
     cur.execute("SELECT * FROM alternatif")
     alternatif_db = cur.fetchall()
 
-    # Ambil kriteria
+    
     cur.execute("SELECT * FROM kriteria")
     kriteria_db = cur.fetchall()
 
-    # Ambil nilai
-    cur.execute("SELECT * FROM nilai")
+    
+    cur.execute("""
+        SELECT alternatif_id, kriteria_id, nilai
+        FROM nilai
+    """)
     nilai_db = cur.fetchall()
-
     cur.close()
 
     # Mapping alternatif
     alternatif = [
-        {'id': a[0], 'nama': a[1]} for a in alternatif_db
+        {'id': a[0], 'nama': a[1]}
+        for a in alternatif_db
     ]
 
     # Mapping kriteria
@@ -93,15 +140,18 @@ def hasil():
         for k in kriteria_db
     ]
 
-    # Mapping nilai
+    
     nilai = {}
-    for n in nilai_db:
-        nilai[(n[1], n[2])] = n[3]
+    for alt_id, kri_id, nilai_val in nilai_db:
+        nilai[(alt_id, kri_id)] = nilai_val
+
+    # print("NILAI DB:", nilai_db)
 
     # Hitung WP
     ranking = hitung_wp(alternatif, kriteria, nilai)
 
     return render_template('hasil.html', ranking=ranking)
+    
 
 
 
@@ -117,22 +167,23 @@ def nilai():
 
     if request.method == 'POST':
         alt_id = request.form['alternatif']
+
         for k in kriteria:
-            nilai = request.form[f'nilai_{k[0]}']
-            cur.execute(
-                "INSERT INTO nilai (alternatif_id, kriteria_id, nilai) VALUES (%s,%s,%s)",
-                (alt_id, k[0], nilai)
-            )
+            nilai_input = request.form.get(f'nilai_{k[0]}')
+
+            if nilai_input:
+                cur.execute("""
+                    INSERT INTO nilai (alternatif_id, kriteria_id, nilai)
+                    VALUES (%s, %s, %s)
+                    ON DUPLICATE KEY UPDATE nilai = %s
+                """, (alt_id, k[0], nilai_input, nilai_input))
+
         mysql.connection.commit()
+        cur.close()
+        return redirect(url_for('dashboard'))
 
     cur.close()
     return render_template('nilai.html', alternatif=alternatif, kriteria=kriteria)
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

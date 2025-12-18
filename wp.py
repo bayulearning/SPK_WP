@@ -1,22 +1,39 @@
 import math
 
 def hitung_wp(alternatif, kriteria, nilai):
-    # normalisasi bobot
-    total_bobot = sum([k['bobot'] for k in kriteria])
-    for k in kriteria:
-        k['bobot'] /= total_bobot
-        if k['tipe'] == 'cost':
-            k['bobot'] *= -1
+    hasil = []
 
-    hasil = {}
-    for a in alternatif:
-        S = 1
+    for alt in alternatif:
+        log_S = 0
+
         for k in kriteria:
-            n = nilai[(a['id'], k['id'])]
-            S *= n ** k['bobot']
-        hasil[a['nama']] = S
+            key = (alt['id'], k['id'])
 
-    total_S = sum(hasil.values())
-    V = {k: v / total_S for k, v in hasil.items()}
+            if key not in nilai:
+                raise Exception(
+                    f"Nilai alternatif '{alt['nama']}' "
+                    f"untuk kriteria '{k['nama']}' belum ada"
+                )
 
-    return sorted(V.items(), key=lambda x: x[1], reverse=True)
+            v = float(nilai[key])
+            w = float(k['bobot'])
+
+            if k['tipe'] == 'cost':
+                w = -w
+
+            log_S += w * math.log(v)
+
+        S = math.exp(log_S)
+
+        hasil.append({
+            'id': alt['id'],
+            'nama': alt['nama'],
+            'nilai': S
+        })
+
+    total = sum(h['nilai'] for h in hasil)
+
+    for h in hasil:
+        h['preferensi'] = h['nilai'] / total
+
+    return sorted(hasil, key=lambda x: x['preferensi'], reverse=True)
