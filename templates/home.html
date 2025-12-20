@@ -1,4 +1,63 @@
 {% extends 'index.html' %} {% block content %}
-<div><h1>Weighted Product</h1></div>
-<div><h2>Atur value Laptop berdasarkan perhitungan kriteria yang ada</h2></div>
+<style>
+  html,
+  body {
+    background-color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .navbar {
+    background: linear-gradient(90deg, #1f293700, #2c3e5000) !important;
+  }
+  .hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("static/css/img/img1.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Ini adalah lapisan warna solid di atas gambar */
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Warna hitam transparan */
+    z-index: 1;
+  }
+
+  /* Pastikan konten teks berada di atas lapisan warna */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 80px;
+    margin: 0 0 20px 0;
+  }
+</style>
+
+<div class="hero-section">
+  <div class="hero-content">
+    <h1 data-aos="fade-up" data-aos-duration="1000">Weighted Product</h1>
+
+    <h2 data-aos="fade-right" data-aos-delay="300" data-aos-duration="1000">
+      Atur pilihan Laptop berdasarkan kriteria Anda
+    </h2>
+  </div>
+</div>
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'index.html' %} {% block content %}
+<section class="content-place">
+  <h2>Edit Alternatif</h2>
+
+  <form
+    method="POST"
+    action="{{ url_for('update_alternatif', id=alternatif[0]) }}"
+  >
+    <label>Nama Alternatif</label><br />
+    <input type="text" name="nama" value="{{ alternatif[1] }}" required />
+    <br /><br />
+
+    <button type="submit">Simpan Perubahan</button>
+    <a href="{{ url_for('alternatif') }}">Batal</a>
+  </form>
+</section>
+{% endblock %}

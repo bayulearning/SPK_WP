@@ -1,31 +1,32 @@
 {% extends 'index.html' %} {% block content %}
-<h2>Perbandingan Produk (Metode WP)</h2>
+<section class="content-place">
+  <h2>Perbandingan Produk (Metode WP)</h2>
 
-<table border="1" cellpadding="8">
-  <thead>
-    <tr>
-      <th>Produk</th>
-      {% for k in kriteria %}
-      <th>{{ k.nama }}</th>
+  <table border="1" cellpadding="8">
+    <thead>
+      <tr>
+        <th>Produk</th>
+        {% for k in kriteria %}
+        <th>{{ k.nama }}</th>
+        {% endfor %}
+        <th>Skor WP (S)</th>
+        <th>Preferensi (V)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in ranking %}
+      <tr>
+        <td>{{ r.nama }}</td>
+
+        {% for k in kriteria %}
+        <td>{{ nilai.get((r.id, k.id), '-') }}</td>
+        {% endfor %}
+
+        <td>{{ "%.6f"|format(r.preferensi) }}</td>
+        <td>#{{ loop.index }}</td>
+      </tr>
       {% endfor %}
-      <th>Skor WP (S)</th>
-      <th>Preferensi (V)</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in ranking %}
-    <tr>
-      <td>{{ r.nama }}</td>
-
-      {% for k in kriteria %}
-      <td>{{ nilai.get((r.id, k.id), '-') }}</td>
-      {% endfor %}
-
-      <td>{{ "%.6f"|format(r.preferensi) }}</td>
-      <td>#{{ loop.index }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+    </tbody>
+  </table>
+</section>
 {% endblock %}

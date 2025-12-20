@@ -78,10 +78,19 @@ def kriteria():
         mysql.connection.commit()
 
     cur.execute("SELECT * FROM kriteria")
-    data = cur.fetchall()
-    cur.close()
+    rows = cur.fetchall()
 
-    return render_template('kriteria.html', kriteria=data)
+    kriteria = []
+    for k in rows:
+        kriteria.append({
+            'id': k[0],
+            'nama': k[1],
+            'bobot': k[2],
+            'tipe': k[3]
+        })
+
+    return render_template('kriteria.html', kriteria=kriteria)
+
 
 
 @app.route('/alternatif', methods=['GET', 'POST'])
@@ -184,6 +193,91 @@ def nilai():
 
     cur.close()
     return render_template('nilai.html', alternatif=alternatif, kriteria=kriteria)
+
+# Edit & Update / Delete
+
+@app.route('/alternatif/edit/<int:id>')
+def edit_alternatif(id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM alternatif WHERE id = %s", (id,))
+    data = cur.fetchone()
+    cur.close()
+
+    if data is None:
+        return redirect(url_for('alternatif'))
+
+    return render_template('alternatif_edit.html', alternatif=data)
+
+@app.route('/alternatif/update/<int:id>', methods=['POST'])
+def update_alternatif(id):
+    nama = request.form['nama']
+
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "UPDATE alternatif SET nama_alternatif = %s WHERE id = %s",
+        (nama, id)
+    )
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('alternatif'))
+
+@app.route('/kriteria/edit/<int:id>')
+def edit_kriteria(id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM kriteria WHERE id = %s", (id,))
+    data = cur.fetchone()
+    cur.close()
+
+    if data is None:
+        return redirect(url_for('kriteria'))
+
+    return render_template('kriteria_edit.html', kriteria=data)
+
+@app.route('/kriteria/update/<int:id>', methods=['POST'])
+def update_kriteria(id):
+    nama = request.form['nama']
+    bobot = request.form['bobot']
+    tipe = request.form['tipe']
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        UPDATE kriteria
+        SET nama_kriteria = %s, bobot = %s, tipe = %s
+        WHERE id = %s
+    """, (nama, bobot, tipe, id))
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('kriteria'))
+
+@app.route('/kriteria/delete/<int:id>', methods=['POST'])
+def delete_kriteria(id):
+    cur = mysql.connection.cursor()
+
+    # hapus nilai dulu (FK)
+    cur.execute("DELETE FROM nilai WHERE kriteria_id = %s", (id,))
+    cur.execute("DELETE FROM kriteria WHERE id = %s", (id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('kriteria'))
+
+@app.route('/alternatif/delete/<int:id>', methods=['POST'])
+def delete_alternatif(id):
+    cur = mysql.connection.cursor()
+
+    # 1. Hapus nilai milik alternatif ini dulu
+    cur.execute("DELETE FROM nilai WHERE alternatif_id = %s", (id,))
+
+    # 2. Baru hapus alternatif
+    cur.execute("DELETE FROM alternatif WHERE id = %s", (id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('alternatif'))
 
 
 if __name__ == '__main__':

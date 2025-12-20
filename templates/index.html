@@ -7,11 +7,31 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
     <nav class="navbar">
-      <div class="home"><a href="/">SPK WP</a></div>
+      <div class="home">
+        <a
+          href="/"
+          style="
+            font-size: 25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-style: italic;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: white;
+          "
+        >
+          SPK WP
+        </a>
+      </div>
       <ul>
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/kriteria">Kriteria</a></li>
@@ -23,4 +43,9 @@
 
     <main class="container">{% block content %}{% endblock %}</main>
   </body>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </html>

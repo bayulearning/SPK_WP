@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% block content %}
+<section class="content-place">
+<h2>Edit Kriteria</h2>
+
+<form method="POST" action="{{ url_for('update_kriteria', id=kriteria[0]) }}">
+  <input type="text" name="nama" value="{{ kriteria[1] }}" required>
+  <input type="number" step="0.01" name="bobot" value="{{ kriteria[2] }}" required>
+
+  <select name="tipe">
+    <option value="benefit" {% if kriteria[3]=='benefit' %}selected{% endif %}>
+      Benefit
+    </option>
+    <option value="cost" {% if kriteria[3]=='cost' %}selected{% endif %}>
+      Cost
+    </option>
+  </select>
+
+  <br><br>
+  <button type="submit">Update</button>
+  <a href="{{ url_for('kriteria') }}">Batal</a>
+</form>
+</section>
+{% endblock %}

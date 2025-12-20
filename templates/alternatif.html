@@ -1,24 +1,38 @@
 {% extends 'index.html' %} {% block content %}
-<h1>Data Alternatif</h1>
+<section class="content-place">
+  <h1>Data Alternatif</h1>
 
-<form class="form" method="POST" action="/alternatif">
-  <input type="text" name="nama" placeholder="Nama Alternatif" required />
-  <button type="submit">Simpan</button>
-</form>
+  <form class="form" method="POST" action="{{ url_for('alternatif') }}">
+    <input type="text" name="nama" placeholder="Nama Alternatif" required />
+    <button type="submit">Tambah</button>
+  </form>
 
-<table border="1" cellpadding="8">
-  <thead>
-    <tr>
-      <th>Nama Alternatif</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for a in alternatif %}
-    <tr>
-      <td>{{ a[1] }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+  <table cellpadding="8">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama Alternatif</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in alternatif %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ a[1] }}</td>
+        <td>
+          <form
+            method="POST"
+            action="{{ url_for('delete_alternatif', id=a[0]) }}"
+            style="display: inline"
+            onsubmit="return confirm('Hapus alternatif ini?')"
+          >
+            <button type="submit" class="btn-delete">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
 {% endblock %}

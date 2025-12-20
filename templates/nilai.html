@@ -1,38 +1,39 @@
 {% extends 'index.html' %} {% block content %}
-<h2>Input Nilai Alternatif</h2>
+<section class="content-place">
+  <h2>Input Nilai Alternatif</h2>
 
-<form method="POST" action="/nilai">
-  <div style="margin-bottom: 15px">
-    <label>Pilih Alternatif</label><br />
-    <select name="alternatif" required>
-      <option value="">-- Pilih Alternatif --</option>
-      {% for a in alternatif %}
-      <option value="{{ a[0] }}">{{ a[1] }}</option>
-      {% endfor %}
-    </select>
-  </div>
+  <form method="POST" action="/nilai">
+    <div style="margin-bottom: 15px">
+      <label>Pilih Alternatif</label><br />
+      <select name="alternatif" required>
+        <option value="">-- Pilih Alternatif --</option>
+        {% for a in alternatif %}
+        <option value="{{ a[0] }}">{{ a[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-  <table border="1" cellpadding="8" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Kriteria</th>
-        <th>Nilai</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for k in kriteria %}
-      <tr>
-        <td>{{ k[1] }}</td>
-        <td>
-          <input type="number" step="0.01" name="nilai_{{ k[0] }}" required />
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Kriteria</th>
+          <th>Nilai</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for k in kriteria %}
+        <tr>
+          <td>{{ k[1] }}</td>
+          <td>
+            <input type="number" step="0.01" name="nilai_{{ k[0] }}" required />
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-  <br />
-  <button type="submit">Simpan Nilai</button>
-</form>
-
+    <br />
+    <button type="submit">Simpan Nilai</button>
+  </form>
+</section>
 {% endblock %}

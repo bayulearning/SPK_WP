@@ -1,61 +1,192 @@
-body {
-  font-family: Arial, sans-serif;
+/* ===== RESET & GLOBAL ===== */
+* {
   margin: 0;
-  background: #f4f6f8;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
+body {
+  background: #f4f6f8;
+  color: #333;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
-  background: #2c3e50;
+  background: linear-gradient(90deg, #1f2937, #2c3e50);
+  height: 70px;
   color: white;
-  padding: 10px 20px;
+  padding: 14px 25px;
   display: flex;
   justify-content: space-between;
-}
-.home {
-  display: flex;
-  justify-content: center;
-  text-align: center;
   align-items: center;
-  height: auto;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
+
+.navbar h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .navbar ul {
   list-style: none;
   display: flex;
-  gap: 15px;
+  gap: 20px;
 }
 
 .navbar a {
   color: white;
   text-decoration: none;
+  font-weight: 500;
 }
 
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.content-place {
+  padding: 25px;
+}
+/* ===== CONTAINER =====
 .container {
-  padding: 20px;
+  padding: 25px;
+} */
+
+/* ===== HOME ===== */
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: fit-content;
 }
 
-.form {
-  margin-bottom: 20px;
+.home h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #1f2937;
+}
+
+.home h2 {
+  font-weight: normal;
+  color: #4b5563;
+}
+
+/* ===== FORM ===== */
+.form,
+form {
+  padding: 10px 5px 10px 5px;
+  background: white;
+  border-radius: 10px;
+  margin: 25px 0 25px 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 input,
-select,
-button {
-  padding: 8px;
-  margin-right: 5px;
+select {
+  padding: 9px 12px;
+  margin-right: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== BUTTON ===== */
+button {
+  padding: 9px 16px;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button.delete {
+  background: #dc2626;
+}
+
+button.delete:hover {
+  background: #b91c1c;
+}
+
+button.secondary {
+  background: #6b7280;
+}
+
+button.secondary:hover {
+  background: #4b5563;
+}
+
+/* ===== TABLE ===== */
 table {
   width: 100%;
   background: white;
   border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+table,
+th,
+td {
+  padding: 12px 14px;
+  border: 1px solid #040d1e43;
+  text-align: left;
 }
 
 th,
 td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 8px;
+}
+th {
+  background: #e5e7eb;
+  font-weight: 600;
 }
 
-th {
-  background: #ecf0f1;
+tr:hover {
+  background: #f9fafb;
+}
+
+/* ===== ACTION BUTTON ===== */
+.action-form {
+  display: inline;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
 }
