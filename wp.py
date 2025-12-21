@@ -2,6 +2,10 @@ import math
 
 def hitung_wp(alternatif, kriteria, nilai):
     hasil = []
+    total_bobot = sum(float(k['bobot']) for k in kriteria)
+
+    for k in kriteria:
+        k['bobot'] = float(k['bobot']) / total_bobot
 
     for alt in alternatif:
         log_S = 0
