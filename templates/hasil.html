@@ -1,20 +1,47 @@
 {% extends 'index.html' %} {% block content %}
 <section class="content-place">
-  <h1>Hasil Perhitungan WP</h1>
+  <h1>Hasil Perhitungan Weighted Product</h1>
 
-  <table border="1">
-    <tr>
-      <th>Ranking</th>
-      <th>Alternatif</th>
-      <th>Nilai WP</th>
-    </tr>
-    {% for r in ranking %}
-    <tr>
-      <td>{{ loop.index }}</td>
-      <td>{{ r.nama }}</td>
-      <td>{{ r.nilai | round(4) }}</td>
-    </tr>
-    {% endfor %}
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Ranking</th>
+        <th>Alternatif</th>
+
+        {# Header kriteria #} {% if ranking %} {% for nama_kriteria in
+        ranking[0].detail.keys() %}
+        <th>{{ nama_kriteria }}</th>
+        {% endfor %} {% endif %}
+
+        <th>Nilai Preferensi (WP)</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for r in ranking %}
+      <tr>
+        <td>{{ r.rank }}</td>
+        <td>{{ r.nama }}</td>
+
+        {# Isi nilai kriteria #} {% for val in r.detail.values() %}
+        <td align="center">{{ val }}</td>
+        {% endfor %}
+
+        <td>{{ r.preferensi | round(5) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
+
+  <br />
+
+  <a href="{{ url_for('export_excel') }}">
+    <button>Export Excel</button>
+  </a>
+
+  <a href="{{ url_for('export_pdf') }}">
+    <button>Export PDF</button>
+  </a>
 </section>
+
 {% endblock %}

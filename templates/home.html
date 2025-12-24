@@ -8,6 +8,9 @@
     width: 100%;
     overflow-x: hidden;
   }
+  .footer {
+    height: 30vh;
+  }
   .navbar {
     background: linear-gradient(90deg, #1f293700, #2c3e5000) !important;
   }
@@ -52,6 +55,18 @@
     justify-content: center;
     overflow: hidden;
   }
+  .hero-section-footer {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("static/css/img/background_footer.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
   /* Ini adalah lapisan warna solid di atas gambar */
   .hero-section::before {
@@ -76,7 +91,10 @@
 
   .hero-content h1 {
     font-size: 80px;
-    margin: 0 0 20px 0;
+  }
+
+  .hero-content p {
+    margin: 20px 0 0 0;
   }
 
   #deskripsi {
@@ -100,15 +118,43 @@
   }
 
   #langkah {
+    margin-top: 20vh;
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: repeat(3, 1fr);
+    place-items: center; /* Singkatan dari align-items dan justify-items */
   }
 
   #langkah img {
-    max-width: 50%;
+    max-width: 80%;
+  }
+  #langkah h2 {
+    margin: 20px 0 5px 0;
+  }
+  #langkah p {
+    justify-content: center;
+    max-width: 30vw;
+    text-align: justify !important;
+  }
+  #ranking {
+    margin-top: 100px;
+  }
+
+  #langkah2,
+  #ranking {
+    margin-top: 20vh;
+  }
+  #langkah2 img,
+  #ranking img {
+    max-width: 60%;
+    margin: 20px 0 20px 0;
+  }
+  [data-aos] {
+    pointer-events: none;
+  }
+  .aos-animate {
+    pointer-events: auto;
   }
 </style>
-
 <div class="hero-section">
   <div class="hero-content">
     <h1 data-aos="fade-up" data-aos-duration="1000">Weighted Product</h1>
@@ -127,11 +173,22 @@
     </button>
   </div>
 </div>
+
 <div class="hero-content" id="deskripsi">
-  <div name="gambar" class="gambar">
+  <div
+    name="gambar"
+    class="gambar"
+    data-aos="fade-right"
+    data-aos-duration="1200"
+  >
     <img src="static\css\img\img2.png" alt="" />
   </div>
-  <div name="penjelasan">
+  <div
+    name="penjelasan"
+    data-aos="fade-left"
+    data-aos-duration="1200"
+    data-aos-delay="200"
+  >
     <h3>Weight Product</h3>
     <p>
       adalah teknik dalam Sistem Pendukung Keputusan (SPK) untuk memilih
@@ -141,18 +198,110 @@
     </p>
   </div>
 </div>
+<div
+  class="hero-content"
+  id="langkah2"
+  data-aos="fade-up"
+  data-aos-offset="200"
+  data-aos-duration="1000"
+>
+  <h2>Langkah 1</h2>
+  <img src="static\css\img\img6.png" alt="" />
+  <h3>Menentukan Krieria</h3>
+  <p>
+    Identifikasi kriteria C<sub>j</sub> yang relevan dan tentukan nilai bobot
+    kepentingannya W<sub>j</sub>. Biasanya menggunakan skala likert (misalnya
+    1–5) 1 = Sangat Tidak Penting, 5 = Sangat Penting 
+  </p>
+</div>
 <div class="hero-content" id="langkah">
-  <div class="langkah1">
+  <div
+    class="langkah1"
+    data-aos="fade-up"
+    data-aos-delay="100"
+    data-aos-duration="800"
+  >
     <img src="static\css\img\img3.png" alt="" />
-    <h2></h2>
+    <h2>Langkah 2</h2>
+    <h3>Normalisasi Bobot</h3>
+    <p>
+      Karena total bobot kriteria harus bernilai 1, maka setiap bobot awal
+      dibagi dengan total seluruh bobot <br />
+      <br />
+      <strong>Contoh :</strong> <br />
+      bobot harga sebelum dinormalisasi adalah 5. lalu total keselurhan bobot
+      berjumlah 15. Maka 5/15 adalah 0.33
+    </p>
   </div>
-  <div class="langkah2">
+  <div
+    class="langkah2"
+    data-aos="fade-up"
+    data-aos-delay="300"
+    data-aos-duration="800"
+  >
     <img src="static\css\img\img4.png" alt="" />
-    <h2></h2>
+    <h2>Langkah 3</h2>
+    <h3>Menghitung nilai Vektor S</h3>
+    <p>
+      Vektor S<sub>i</sub> menunjukkan nilai preferensi per alternatif. Caranya
+      adalah dengan mengalikan nilai setiap kriteria yang telah dipangkatkan
+      dengan bobot normalisasinya <br />
+      <br /><strong>Contoh :</strong> <br />Jika Anda memilih laptop dan
+      kriteria "Harga" adalah Cost dengan bobot normalisasi 0,3, maka nilai
+      harga tersebut dipangkatkan -0,3. Dalam matematika, pangkat negatif
+      berarti membagi ( 1 / 𝑋 0 , 3 1 / 𝑋 0 , 3 ), sehingga semakin mahal
+      harganya, nilai 𝑆 𝑆 akan semakin kecil.
+    </p>
   </div>
-  <div class="langkah3">
+  <div
+    class="langkah3"
+    data-aos="fade-up"
+    data-aos-delay="500"
+    data-aos-duration="800"
+  >
     <img src="static\css\img\img5.png" alt="" />
-    <h2></h2>
+    <h2>Langkah 4</h2>
+    <h3>Menghitung nilai Vektor V</h3>
+    <p>
+      Vektor V<sub>i</sub> digunakan untuk menentukan preferensi relatif yang
+      akan menjadi dasar perankingan akhir. <br />
+      <br />
+      <strong>Caranya:</strong> <br />
+      Seluruh nilai Vektor S<sub>i</sub> yang didapat dari langkah sebelumnya
+      dijumlahkan. Lalu Bagi nilai S masing-masing alternatif dengan hasil
+      penjumlahan total dari S
+    </p>
   </div>
 </div>
+<div class="hero-section-footer">
+  <div
+    class="hero-content"
+    id="ranking"
+    data-aos="zoom-in"
+    data-aos-duration="1000"
+    data-aos-offset="100"
+  >
+    <h2>Langkah 5</h2>
+    <img src="static\css\img\img7.png" alt="" />
+    <h3>Perangkingan</h3>
+    <p>
+      Urutkan alternatif berdasarkan nilai V<sub>i</sub> dari yang tertinggi ke
+      terendah. Alternatif dengan nilai V<sub>i</sub> tertinggi merupakan solusi
+      atau pilihan terbaik.
+    </p>
+    <div class="footer"></div>
+  </div>
+</div>
+<script>
+  AOS.init({
+    // Global settings:
+    offset: 120, // jarak (px) elemen dari bawah layar sebelum animasi mulai
+    delay: 0,
+    duration: 1000,
+    easing: "ease-in-out-sine", // Transisi yang lebih lembut untuk mata
+    once: false, // Set ke 'false' agar animasi jalan lagi saat scroll ke atas
+    mirror: true, // Elemen akan animasi keluar saat di-scroll melewati layar
+    anchorPlacement: "top-bottom", // Animasi dipicu berdasarkan posisi elemen
+  });
+</script>
 {% endblock %}

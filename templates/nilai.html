@@ -1,8 +1,10 @@
 {% extends 'index.html' %} {% block content %}
+
 <section class="content-place">
   <h2>Input Nilai Alternatif</h2>
 
   <form method="POST" action="/nilai">
+    <!-- Pilih Alternatif -->
     <div style="margin-bottom: 15px">
       <label>Pilih Alternatif</label><br />
       <select name="alternatif" required>
@@ -13,6 +15,7 @@
       </select>
     </div>
 
+    <!-- Tabel Kriteria -->
     <table border="1" cellpadding="8" cellspacing="0">
       <thead>
         <tr>
@@ -28,6 +31,7 @@
             <select name="nilai_{{ k[0] }}" required>
               <option value="">-- Pilih --</option>
 
+              <!-- HARGA -->
               {% if k[0] == 2 %}
               <option value="5">≤ 6 Juta</option>
               <option value="4">6 – 7.5 Juta</option>
@@ -35,12 +39,14 @@
               <option value="2">9 – 11 Juta</option>
               <option value="1">> 11 Juta</option>
 
+              <!-- RAM -->
               {% elif k[0] == 1 %}
               <option value="1">4 GB</option>
               <option value="2">8 GB</option>
               <option value="3">16 GB</option>
               <option value="4">32 GB</option>
 
+              <!-- STORAGE -->
               {% elif k[0] == 3 %}
               <option value="1">HDD</option>
               <option value="2">SSD 128 GB</option>
@@ -48,20 +54,46 @@
               <option value="4">SSD 512 GB</option>
               <option value="5">SSD ≥ 1 TB</option>
 
+              <!-- PROSESOR (SUDAH DIPERBAIKI) -->
               {% elif k[0] == 4 %}
-              <option value="1">Celeron / Athlon</option>
-              <option value="2">i3 / Ryzen 3</option>
-              <option value="3">i5 / Ryzen 5 / Apple M1/M2</option>
-              <option value="4">i7 / Ryzen 7 / Apple M1/M2 Pro</option>
-              <option value="5">i9 / Ryzen 9 / Apple M2 Max M3 Max</option>
 
+              <optgroup label="Low (Entry Level)">
+                <option value="1">Celeron / Pentium / Athlon</option>
+              </optgroup>
+
+              <optgroup label="Low - Mid">
+                <option value="2">Intel i3 Gen 8–9 / Ryzen 3 3000</option>
+                <option value="3">Intel i3 Gen 10+ / Ryzen 3 5000</option>
+              </optgroup>
+
+              <optgroup label="Mid Performance">
+                <option value="3">Intel i5 Gen 8–9 / Ryzen 5 3000</option>
+                <option value="4">
+                  Intel i5 Gen 10–11 / Ryzen 5 5000 / Apple M1
+                </option>
+                <option value="4">Intel i5 Gen 12–13 / Apple M2</option>
+              </optgroup>
+
+              <optgroup label="High Performance">
+                <option value="4">Intel i7 Gen 10–11 / Ryzen 7 5000</option>
+                <option value="5">Intel i7 Gen 12+ / Apple M1 Pro / M2</option>
+              </optgroup>
+
+              <optgroup label="Very High / Profesional">
+                <option value="5">
+                  Intel i9 Gen 12+ / Ryzen 9 / Apple M2 Pro
+                </option>
+                <option value="5">Apple M2 Max / M3 Max</option>
+              </optgroup>
+
+              <!-- BERAT -->
               {% elif k[0] == 5 %}
-              <option value="">-- Pilih Berat --</option>
               <option value="5">≤ 1.5 kg (Sangat ringan)</option>
               <option value="4">1.6 – 2.0 kg (Ringan)</option>
               <option value="3">2.1 – 2.5 kg (Sedang)</option>
               <option value="2">2.6 – 3.0 kg (Berat)</option>
               <option value="1">> 3.0 kg (Sangat berat)</option>
+
               {% endif %}
             </select>
           </td>
@@ -74,4 +106,5 @@
     <button type="submit">Simpan Nilai</button>
   </form>
 </section>
+
 {% endblock %}

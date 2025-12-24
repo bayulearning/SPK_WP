@@ -1,7 +1,45 @@
 {% extends 'index.html' %} {% block content %}
 <section class="content-place">
   <h2>Perbandingan Produk (Metode WP)</h2>
+  <section class="information">
+    <div class="card">
+      <h3>Total Alternatif</h3>
+      <p>{{ total_alternatif }}</p>
+    </div>
+    <div class="card chart-container">
+      <h3>Merk Laptop Terbanyak</h3>
+      <canvas
+        id="chartMerk"
+        data-labels="{{ labels_merk | tojson }}"
+        data-values="{{ jumlah_merk | tojson }}"
+      ></canvas>
+    </div>
 
+    <div class="card">
+      <h3>Total Laptop</h3>
+      <p>{{ total_alternatif }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Kriteria Dominan</h3>
+      {% if kriteria_tertinggi %}
+      <h2>{{ kriteria_tertinggi.nama }}</h2>
+      {% else %}
+      <p>Belum ada kriteria</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h3>Merk Laptop Total Terbaik</h3>
+      {% if merk_ranking %}
+      <h2>{{ merk_ranking[0].merk }}</h2>
+      <p>Skor WP: {{ merk_ranking[0].skor }}</p>
+      <small>{{ merk_ranking[0].jumlah }} Produk</small>
+      {% else %}
+      <p>Data belum tersedia</p>
+      {% endif %}
+    </div>
+  </section>
   <table border="1" cellpadding="8">
     <thead>
       <tr>
@@ -29,4 +67,32 @@
     </tbody>
   </table>
 </section>
+
+<script>
+  window.labelsMerk = {{ labels_merk | tojson }};
+  window.jumlahMerk = {{ jumlah_merk | tojson }};
+
+  if (labelsMerk.length > 0) {
+    const ctx = document.getElementById('chartMerk').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labelsMerk,
+        datasets: [{
+          label: 'Jumlah Laptop per Merk',
+          data: jumlahMerk
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+  }
+</script>
 {% endblock %}
